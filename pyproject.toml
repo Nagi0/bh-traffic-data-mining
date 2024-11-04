@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "bhTrafficDataMining"
+version = "0.1.0"
+description = "Análise de dados com mineração de padrões em base de dados de radares de Belo Horizonte"
+authors = ["Nagi0 <brunolefonseca13@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+polars = "^1.12.0"
+python-dotenv = "^1.0.1"
+tqdm = "^4.66.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
