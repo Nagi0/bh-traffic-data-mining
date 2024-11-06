@@ -15,7 +15,8 @@ class DataLoader:
         json_files_list = []
 
         for m_folder in months_folders:
-            for d_folder in m_folder:
+            d_folder_list = os.listdir(f"{self.dir}/{m_folder}")
+            for d_folder in d_folder_list:
                 json_files = glob(f"{self.dir}/{m_folder}/{d_folder}/*.json")
                 json_files_list.extend(json_files)
 
@@ -33,5 +34,11 @@ class DataLoader:
             )
             dataframes_list.append(filtered_df)
 
-        month_df = pl.concat(dataframes_list)
-        print(month_df)
+        months_df = pl.concat(dataframes_list)
+
+        return months_df
+
+
+if __name__ == "__main__":
+    data_loader = DataLoader("./bhTrafficDataMining/dataProcessing/data/", "Contorno")
+    data_loader.load_data()
