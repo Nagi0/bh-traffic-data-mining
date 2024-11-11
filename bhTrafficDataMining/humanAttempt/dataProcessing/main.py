@@ -9,4 +9,8 @@ if __name__ == "__main__":
         "bhTrafficDataMining/dataProcessing/data/", os.environ["TARGET"]
     )
     df = data_loader.load_data()
-    print(df)
+    df.write_csv(
+        "./bhTrafficDataMining/dataProcessing/data/FEVEREIRO_2022/FEVEREIRO_2022.csv",
+        separator=";",
+    )
+    print(df["ENDEREÇO"].value_counts())
