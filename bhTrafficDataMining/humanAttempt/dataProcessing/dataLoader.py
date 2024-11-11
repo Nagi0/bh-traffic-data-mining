@@ -22,7 +22,7 @@ class DataLoader:
 
         return json_files_list
 
-    def load_data(self):
+    def load_data(self) -> pl.DataFrame:
         json_files_list = self.list_files()
         dataframes_list = []
         for file in tqdm(json_files_list):
@@ -31,6 +31,11 @@ class DataLoader:
                 df.lazy()
                 .filter(pl.col("ENDEREÇO").str.contains(f"{self.target}"))
                 .collect()
+            )
+            filtered_df = filtered_df.with_columns(
+                (pl.col("VELOCIDADE AFERIDA") > pl.col("VELOCIDADE DA VIA")).alias(
+                    "ULTRAPASSOU LIMITE"
+                )
             )
             dataframes_list.append(filtered_df)
 
