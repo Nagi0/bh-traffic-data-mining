@@ -11,7 +11,7 @@ output_directory = "bhTrafficDataMining/llmAttempt/dataProcessed"
 dataframes = []
 
 # Iterate through each CSV file in the output directory
-for csv_file in os.listdir(output_directory)[:1]:
+for csv_file in os.listdir(output_directory):
     if csv_file.endswith(".csv"):
         csv_path = os.path.join(output_directory, csv_file)
         # Read CSV file with polars
