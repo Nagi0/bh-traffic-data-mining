@@ -4,13 +4,10 @@ from dataLoader import DataLoader
 
 
 if __name__ == "__main__":
-    load_dotenv("bhTrafficDataMining/dataProcessing/config/.env")
-    data_loader = DataLoader(
-        "bhTrafficDataMining/dataProcessing/data/", os.environ["TARGET"]
-    )
+    load_dotenv("bhTrafficDataMining/humanAttempt/dataProcessing/config/.env")
+    data_loader = DataLoader("bhTrafficDataMining/data", os.environ["TARGET"])
     df = data_loader.load_data()
     df.write_csv(
-        "./bhTrafficDataMining/dataProcessing/data/FEVEREIRO_2022/FEVEREIRO_2022.csv",
-        separator=";",
+        "bhTrafficDataMining/humanAttempt/dataProcessing/dataProcessed/ABRIL_2022.csv",
     )
     print(df["ENDEREÇO"].value_counts())

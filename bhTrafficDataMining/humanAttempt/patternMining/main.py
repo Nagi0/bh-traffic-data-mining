@@ -1,33 +1,20 @@
 import polars as pl
-from tqdm import tqdm
+from mlxtend.frequent_patterns import fpgrowth
+from preprocessor import DataPreprocessor
 
 
 if __name__ == "__main__":
-    df = pl.read_csv(
-        "bhTrafficDataMining/dataProcessing/data/FEVEREIRO_2022/FEVEREIRO_2022.csv",
-        separator=";",
+    data_preprocessor = DataPreprocessor(
+        "bhTrafficDataMining/humanAttempt/dataProcessing/dataProcessed"
     )
+
+    df = data_preprocessor.get_preprocessed_database(
+        1.0, p_undesired_columns=["VELOCIDADE AFERIDA", "VELOCIDADE DA VIA", "TAMANHO"]
+    )
+    df = df.lazy().filter(pl.col("ULTRAPASSOU LIMITE_true") == True).collect()
+    df = df.to_pandas()
     print(df)
-    # Selecionando as colunas relevantes para a análise transacional
-    transactional_data_polars = df.select(
-        [
-            "VELOCIDADE AFERIDA",
-            "FAIXA",
-            "LATITUDE",
-            "LONGITUDE",
-            "ULTRAPASSOU LIMITE",
-        ]
-    )
 
-    # Convertendo os dados para uma lista de dicionários
-    transactions_polars = transactional_data_polars.to_dicts()
-
-    # Convertendo a lista de dicionários para uma lista de listas representando as transações
-    transactions = [
-        [str(value) for value in transaction.values() if value is not None]
-        for transaction in transactions_polars
-    ]
-
-    # Exibindo as transações
-    for transaction in transactions:
-        print(transaction)
+    frequent_itemsets = fpgrowth(df, min_support=0.25, use_colnames=True, verbose=1)
+    print(frequent_itemsets)
+    frequent_itemsets.to_csv("bhTrafficDataMining/humanAttempt/resultados.csv")
