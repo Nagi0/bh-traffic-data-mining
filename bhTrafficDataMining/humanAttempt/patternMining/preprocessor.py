@@ -1,9 +1,7 @@
-import os
 from glob import glob
 from dataclasses import dataclass
 from tqdm import tqdm
 import polars as pl
-import pandas as pd
 
 
 @dataclass
